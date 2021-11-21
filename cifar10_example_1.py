@@ -5,6 +5,7 @@ from torch import nn, optim, cuda
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import time
+import numpy as np
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -39,15 +40,17 @@ for batch_idx, (data, target) in enumerate(train_loader):
 
 ######################################################
 
-for batch_idx, (data, target) in enumerate(train_loader):
-  plt.figure()
-  print("*"*10)
-  f, axarr = plt.subplots(1,5) 
-  for i in range(5):
-    image = torch.transpose(data[i], 0, 2)
-    image = torch.transpose(image, 0, 1)
-    image = image.cpu().detach().numpy()
-    label = target[i]
-    axarr[i].imshow(image)
-    print(classes[label])
-  break
+def imshow(img):
+    img = img / 2 + 0.5     # unnormalize
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+
+# get some random training images
+dataiter = iter(train_loader)
+images, labels = dataiter.next()
+
+# show images
+imshow(torchvision.utils.make_grid(images[:4]))
+# print labels
+print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
