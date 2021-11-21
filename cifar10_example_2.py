@@ -99,3 +99,6 @@ for epoch in range(10):
   test()
 m, s =divmod(time.time() - start, 60)
 print(f'Total time : {m:.0f}m {s:.0f}s')
+
+save_path = "./cifar_net.pth"
+torch.save(model.state_dict(), save_path)
