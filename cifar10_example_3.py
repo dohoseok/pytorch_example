@@ -27,7 +27,7 @@ classes = ('plane', 'car', 'bird', 'cat',
 
 device = 'cuda' if cuda.is_available() else 'cpu'
 
-model = torchvision.models.resnet18(pretrained=True)
+model = torchvision.models.resnet18()
 model.fc = nn.Linear(512,10)
 print(model)
 
