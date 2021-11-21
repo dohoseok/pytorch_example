@@ -102,3 +102,17 @@ print(f'Total time : {m:.0f}m {s:.0f}s')
 
 save_path = "./cifar_net.pth"
 torch.save(model.state_dict(), save_path)
+
+# Inference Model
+model.load_state_dict(torch.load(save_path))
+
+dataiter = iter(test_loader)
+images, labels = dataiter.next()
+
+outputs = model(images.to(device))
+_, predicted = torch.max(outputs, 1)
+
+# print images
+imshow(torchvision.utils.make_grid(images[:10], nrow=5, ncol=2))
+print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(10)))
+print('Predicted: ', ' '.join('%5s' % classes[predicted[j]] for j in range(10)))
